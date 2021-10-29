@@ -5,13 +5,14 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/wallacemachado/challenge-go-rabbitmq/database"
 	"github.com/wallacemachado/challenge-go-rabbitmq/router"
 )
 
 func main() {
 	r := router.Generate()
-
+	database.Db().Database("challenge-go-rabbitmq-db").Collection("person")
 	fmt.Println("Server is running!")
-	log.Fatal(http.ListenAndServe(":3000", r))
+	log.Fatal(http.ListenAndServe(":3001", r))
 
 }

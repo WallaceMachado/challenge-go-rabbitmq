@@ -1,0 +1,33 @@
+version: "3.9"
+services:
+  mongo_db:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+    ports:
+      - 27017:27017
+       
+    volumes:
+      - pgdata:/var/lib/mongo/data
+    networks:
+      - app_network
+  
+  app:
+    build: .
+    depends_on:
+      - mongo_db
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/usr/app
+    networks:
+      - app_network
+volumes:
+  pgdata:
+    driver: local
+  
+networks:
+  app_network:
+    driver: bridge
