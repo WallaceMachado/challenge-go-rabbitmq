@@ -15,6 +15,6 @@ func main() {
 	r := router.Generate()
 	database.Db().Database("challenge-go-rabbitmq-db").Collection("person")
 	fmt.Println("Server is running!")
-	log.Fatal(http.ListenAndServe(":3001", r))
+	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%s", config.Port), r))
 
 }
