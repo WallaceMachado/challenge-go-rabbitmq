@@ -2,7 +2,7 @@ package router
 
 import (
 	"github.com/gorilla/mux"
-	"github.com/wallacemachado/challenge-go-rabbitmq/router/routes"
+	"github.com/wallacemachado/challenge-go-rabbitmq/src/router/routes"
 )
 
 func Generate() *mux.Router {

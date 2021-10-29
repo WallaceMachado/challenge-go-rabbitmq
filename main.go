@@ -5,9 +5,9 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/wallacemachado/challenge-go-rabbitmq/config"
-	"github.com/wallacemachado/challenge-go-rabbitmq/database"
-	"github.com/wallacemachado/challenge-go-rabbitmq/router"
+	"github.com/wallacemachado/challenge-go-rabbitmq/src/config"
+	"github.com/wallacemachado/challenge-go-rabbitmq/src/database"
+	"github.com/wallacemachado/challenge-go-rabbitmq/src/router"
 )
 
 func main() {

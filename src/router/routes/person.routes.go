@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/wallacemachado/challenge-go-rabbitmq/controllers"
+	"github.com/wallacemachado/challenge-go-rabbitmq/src/controllers"
 )
 
 var routesPerson = []Router{

@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/wallacemachado/challenge-go-rabbitmq/config"
+	"github.com/wallacemachado/challenge-go-rabbitmq/src/config"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )

@@ -5,8 +5,8 @@ import (
 	"io/ioutil"
 	"net/http"
 
-	"github.com/wallacemachado/challenge-go-rabbitmq/controllers/responses"
-	"github.com/wallacemachado/challenge-go-rabbitmq/models"
+	"github.com/wallacemachado/challenge-go-rabbitmq/src/controllers/responses"
+	"github.com/wallacemachado/challenge-go-rabbitmq/src/models"
 )
 
 func CreatePerson(w http.ResponseWriter, r *http.Request) {
