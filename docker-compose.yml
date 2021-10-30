@@ -4,8 +4,8 @@ services:
     image: mongo
     restart: always
     environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: root
+      MONGO_INITDB_ROOT_USERNAME: "${DB_USERNAME}"
+      MONGO_INITDB_ROOT_PASSWORD: "${DB_PASSWORD}"
     ports:
       - 27017:27017
        
@@ -19,7 +19,7 @@ services:
     depends_on:
       - mongo_db
     ports:
-      - "${PORT}:${PORT}"
+      - 3000:3000
     volumes:
       - .:/usr/app
     networks:
