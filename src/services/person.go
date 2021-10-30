@@ -29,3 +29,8 @@ func (p *PersonService) CreatePerson(person *models.Person) (interface{}, error)
 
 	return p.repository.CreatePerson(person)
 }
+
+func (p *PersonService) ListAllPeople() (*[]models.Person, error) {
+
+	return p.repository.ListAllPeople()
+}

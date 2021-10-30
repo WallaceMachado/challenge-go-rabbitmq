@@ -14,8 +14,10 @@ type RepositoryPerson struct {
 }
 
 // NovoRepositorioDePublicacoes cria um repositório de publicações
-func NewRepositoryPerson(c *mongo.Collection) *RepositoryPerson {
-	return &RepositoryPerson{c}
+func NewRepositoryPerson(c *mongo.Client) *RepositoryPerson {
+
+	personCollection := c.Database("challenge-go-rabbitmq-db").Collection("person")
+	return &RepositoryPerson{personCollection}
 }
 
 //var personCollection = database.Db().Database("challenge-go-rabbitmq-db").Collection("person")
@@ -65,4 +67,27 @@ func (r *RepositoryPerson) GetPersonById(id string) (*models.Person, error) {
 
 	return &person, nil
 
+}
+
+func (r *RepositoryPerson) ListAllPeople() (*[]models.Person, error) {
+	var people []models.Person
+	result, err := r.Collection.Find(context.TODO(), bson.D{{}})
+	if err != nil {
+
+		return nil, err
+
+	}
+	for result.Next(context.TODO()) {
+
+		var person models.Person
+		err := result.Decode(&person)
+		if err != nil {
+			return nil, err
+		}
+
+		people = append(people, person)
+	}
+	result.Close(context.TODO())
+
+	return &people, nil
 }

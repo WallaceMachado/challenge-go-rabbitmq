@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"context"
 	"encoding/json"
 	"io/ioutil"
 	"net/http"
@@ -35,10 +34,10 @@ func CreatePerson(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var personCollection = database.Db().Database("challenge-go-rabbitmq-db").Collection("person")
-	defer personCollection.Database().Client().Disconnect(context.TODO())
+	db := database.Db()
+	defer database.DbClose()
 
-	repository := repositories.NewRepositoryPerson(personCollection)
+	repository := repositories.NewRepositoryPerson(db)
 
 	service := services.NewPersonService(repository)
 
@@ -51,4 +50,22 @@ func CreatePerson(w http.ResponseWriter, r *http.Request) {
 
 	responses.JSON(w, http.StatusOK, result)
 
+}
+
+func GetAllPeople(w http.ResponseWriter, r *http.Request) {
+
+	db := database.Db()
+	defer database.DbClose()
+
+	repository := repositories.NewRepositoryPerson(db)
+
+	service := services.NewPersonService(repository)
+	people, err := service.ListAllPeople()
+
+	if err != nil {
+		responses.Error(w, http.StatusInternalServerError, err)
+		return
+	}
+
+	responses.JSON(w, http.StatusOK, people)
 }

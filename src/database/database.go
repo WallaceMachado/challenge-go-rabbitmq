@@ -10,6 +10,8 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
+var db *mongo.Client
+
 func Db() *mongo.Client {
 
 	uri := fmt.Sprintf("mongodb://%s:%s@localhost:27017", config.DbUsername, config.DbPassword)
@@ -26,5 +28,12 @@ func Db() *mongo.Client {
 		log.Fatal(err)
 	}
 	fmt.Println("Connected to MongoDB!")
+
+	db = client
+
 	return client
+}
+
+func DbClose() {
+	db.Disconnect(context.TODO())
 }
