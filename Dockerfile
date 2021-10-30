@@ -17,4 +17,6 @@ WORKDIR /
 
 COPY --from=build /challenge-go-rabbitmq /challenge-go-rabbitmq
 
+USER nonroot:nonroot
+
 ENTRYPOINT ["/challenge-go-rabbitmq"]

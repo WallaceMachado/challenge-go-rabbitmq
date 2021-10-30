@@ -1,5 +1,15 @@
 version: "3.9"
 services:
+  rabbit:
+    image: "rabbitmq:3-management"
+    environment:
+      RABBITMQ_ERLANG_COOKIE: "SWQOKODSQALRPCLNMEQG"
+      RABBITMQ_DEFAULT_USER: "rabbitmq"
+      RABBITMQ_DEFAULT_PASS: "rabbitmq"
+      RABBITMQ_DEFAULT_VHOST: "/"
+    ports:
+      - "15672:15672"
+      - "5672:5672"
   mongo_db:
     image: mongo
     restart: always
@@ -21,7 +31,7 @@ services:
     ports:
       - 3000:3000
     volumes:
-      - .:/usr/app
+      - .:/usr/go/src/
     networks:
       - app_network
 volumes:
