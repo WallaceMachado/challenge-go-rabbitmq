@@ -20,18 +20,23 @@ type Person struct {
 	UpdatedAt time.Time `bson:"updated_at,omitempty" json:"updatedAt" valid:"-"`
 }
 
-func NewPerson(name string, gender string, weight float64, height float64, imc float64) (*Person, error) {
+func NewPerson(p *Person) (*Person, error) {
 	person := &Person{
-		Name:   name,
-		Gender: gender,
-		Weight: weight,
-		Height: height,
-		IMC:    imc,
+		ID:     p.ID,
+		Name:   p.Name,
+		Gender: p.Gender,
+		Weight: p.Weight,
+		Height: p.Height,
+		IMC:    p.IMC,
 	}
 
-	person.ID = uuid.NewV4().String()
-	person.CreatedAt = time.Now()
-	person.UpdatedAt = time.Now()
+	if p.ID == "" {
+		person.ID = uuid.NewV4().String()
+		person.CreatedAt = time.Now()
+		person.UpdatedAt = time.Now()
+	} else {
+		person.UpdatedAt = time.Now()
+	}
 
 	err := person.prepare()
 

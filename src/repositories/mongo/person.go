@@ -91,3 +91,23 @@ func (r *RepositoryPerson) ListAllPeople() (*[]models.Person, error) {
 
 	return &people, nil
 }
+
+func (r *RepositoryPerson) UpdatePerson(person *models.Person) error {
+
+	filter := bson.M{"_id": person.ID}
+
+	update := bson.M{"$set": bson.M{
+		"name":       person.Name,
+		"gender":     person.Gender,
+		"heigth":     person.Height,
+		"weigth":     person.Weight,
+		"imc":        person.IMC,
+		"updated_at": person.UpdatedAt,
+	}}
+
+	if _, err := r.Collection.UpdateOne(context.TODO(), filter, update); err != nil {
+		return err
+	}
+
+	return nil
+}

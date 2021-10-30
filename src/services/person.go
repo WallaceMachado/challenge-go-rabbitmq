@@ -45,3 +45,23 @@ func (p *PersonService) GetPersonById(id string) (*models.Person, error) {
 	}
 	return person, nil
 }
+
+func (p *PersonService) UpdatePerson(person *models.Person) error {
+	personByID, err := p.repository.GetPersonById(person.ID)
+	if err != nil {
+		return err
+	}
+	if personByID.ID == "" {
+		return errors.New("non-existent person")
+	}
+
+	personByName, err := p.repository.GetPersonByName(person.Name)
+	if err != nil {
+		return err
+	}
+	if personByName.ID != "" && personByName.ID != personByID.ID {
+		return errors.New("there is already another person with that name")
+	}
+
+	return p.repository.UpdatePerson(person)
+}

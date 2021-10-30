@@ -29,7 +29,7 @@ func CreatePerson(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	newPerson, err := models.NewPerson(person.Name, person.Gender, person.Weight, person.Height, person.IMC)
+	newPerson, err := models.NewPerson(&person)
 	if err != nil {
 		responses.Error(w, http.StatusBadRequest, err)
 		return
@@ -95,4 +95,53 @@ func GetPersonById(w http.ResponseWriter, r *http.Request) {
 	}
 
 	responses.JSON(w, http.StatusOK, result)
+}
+
+func UpdatePerson(w http.ResponseWriter, r *http.Request) {
+
+	params := mux.Vars(r)
+	id := params["id"]
+
+	if err := models.ValidatePersonID(id); err != nil {
+		responses.Error(w, http.StatusBadRequest, err)
+		return
+	}
+
+	bodyRequest, err := ioutil.ReadAll(r.Body)
+
+	if err != nil {
+		responses.Error(w, http.StatusUnprocessableEntity, err)
+		return
+	}
+
+	var person models.Person
+
+	if err = json.Unmarshal(bodyRequest, &person); err != nil {
+		responses.Error(w, http.StatusBadRequest, err)
+		return
+	}
+
+	person.ID = id
+
+	newPerson, err := models.NewPerson(&person)
+	if err != nil {
+		responses.Error(w, http.StatusBadRequest, err)
+		return
+	}
+
+	db := database.Db()
+	defer database.DbClose()
+
+	repository := repositories.NewRepositoryPerson(db)
+
+	service := services.NewPersonService(repository)
+
+	err = service.UpdatePerson(newPerson)
+
+	if err != nil {
+		responses.Error(w, http.StatusBadRequest, err)
+		return
+	}
+
+	responses.JSON(w, http.StatusNoContent, nil)
 }

@@ -23,4 +23,9 @@ var routesPerson = []Router{
 		Metodo: http.MethodGet,
 		Funcao: controllers.GetPersonById,
 	},
+	{
+		URI:    "/person/{id}",
+		Metodo: http.MethodPut,
+		Funcao: controllers.UpdatePerson,
+	},
 }

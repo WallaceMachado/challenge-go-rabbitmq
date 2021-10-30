@@ -7,4 +7,5 @@ type PersonRepository interface {
 	GetPersonById(id string) (*models.Person, error)
 	GetPersonByName(name string) (*models.Person, error)
 	ListAllPeople() (*[]models.Person, error)
+	UpdatePerson(person *models.Person) error
 }
