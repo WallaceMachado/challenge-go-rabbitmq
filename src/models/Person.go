@@ -1,6 +1,7 @@
 package models
 
 import (
+	"errors"
 	"strings"
 	"time"
 
@@ -66,6 +67,17 @@ func (p *Person) validate() error {
 
 	if err != nil {
 		return err
+	}
+
+	return nil
+}
+
+func ValidatePersonID(id string) error {
+
+	err := govalidator.IsUUID(id)
+
+	if err == false {
+		return errors.New("invalid ID")
 	}
 
 	return nil

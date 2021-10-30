@@ -24,7 +24,7 @@ func (p *PersonService) CreatePerson(person *models.Person) (interface{}, error)
 		return nil, err
 	}
 	if personByName.ID != "" {
-		return nil, errors.New("Person already exists")
+		return nil, errors.New("Person already exist")
 	}
 
 	return p.repository.CreatePerson(person)
@@ -33,4 +33,15 @@ func (p *PersonService) CreatePerson(person *models.Person) (interface{}, error)
 func (p *PersonService) ListAllPeople() (*[]models.Person, error) {
 
 	return p.repository.ListAllPeople()
+}
+
+func (p *PersonService) GetPersonById(id string) (*models.Person, error) {
+	person, err := p.repository.GetPersonById(id)
+	if err != nil {
+		return nil, err
+	}
+	if person.ID == "" {
+		return nil, errors.New("non-existent person")
+	}
+	return person, nil
 }
