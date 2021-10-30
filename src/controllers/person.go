@@ -145,3 +145,29 @@ func UpdatePerson(w http.ResponseWriter, r *http.Request) {
 
 	responses.JSON(w, http.StatusNoContent, nil)
 }
+
+func DeletePerson(w http.ResponseWriter, r *http.Request) {
+	params := mux.Vars(r)
+	id := params["id"]
+
+	if err := models.ValidatePersonID(id); err != nil {
+		responses.Error(w, http.StatusBadRequest, err)
+		return
+	}
+
+	db := database.Db()
+	defer database.DbClose()
+
+	repository := repositories.NewRepositoryPerson(db)
+
+	service := services.NewPersonService(repository)
+
+	err := service.DeletePerson(id)
+
+	if err != nil {
+		responses.Error(w, http.StatusInternalServerError, err)
+		return
+	}
+
+	responses.JSON(w, http.StatusNoContent, nil)
+}

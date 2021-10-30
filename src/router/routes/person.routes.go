@@ -28,4 +28,9 @@ var routesPerson = []Router{
 		Metodo: http.MethodPut,
 		Funcao: controllers.UpdatePerson,
 	},
+	{
+		URI:    "/person/{id}",
+		Metodo: http.MethodDelete,
+		Funcao: controllers.DeletePerson,
+	},
 }

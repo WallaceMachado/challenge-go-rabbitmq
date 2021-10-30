@@ -65,3 +65,14 @@ func (p *PersonService) UpdatePerson(person *models.Person) error {
 
 	return p.repository.UpdatePerson(person)
 }
+
+func (p *PersonService) DeletePerson(id string) error {
+	person, err := p.repository.GetPersonById(id)
+	if err != nil {
+		return err
+	}
+	if person.ID == "" {
+		return errors.New("non-existent person")
+	}
+	return p.repository.DeletePerson(id)
+}

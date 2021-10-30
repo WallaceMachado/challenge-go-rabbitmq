@@ -16,7 +16,6 @@ var (
 	DbCollection = ""
 )
 
-// Loader vai inicializar as variáveis de ambiente
 func Loader() {
 	var erro error
 

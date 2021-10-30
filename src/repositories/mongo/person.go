@@ -8,19 +8,15 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
-// Publicacoes representa um repositório de publicações
 type RepositoryPerson struct {
 	Collection *mongo.Collection
 }
 
-// NovoRepositorioDePublicacoes cria um repositório de publicações
 func NewRepositoryPerson(c *mongo.Client) *RepositoryPerson {
 
 	personCollection := c.Database("challenge-go-rabbitmq-db").Collection("person")
 	return &RepositoryPerson{personCollection}
 }
-
-//var personCollection = database.Db().Database("challenge-go-rabbitmq-db").Collection("person")
 
 func (r *RepositoryPerson) CreatePerson(person *models.Person) (interface{}, error) {
 
@@ -106,6 +102,19 @@ func (r *RepositoryPerson) UpdatePerson(person *models.Person) error {
 	}}
 
 	if _, err := r.Collection.UpdateOne(context.TODO(), filter, update); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (r *RepositoryPerson) DeletePerson(id string) error {
+
+	filter := bson.M{"_id": id}
+
+	_, err := r.Collection.DeleteOne(context.TODO(), filter)
+
+	if err != nil {
 		return err
 	}
 
