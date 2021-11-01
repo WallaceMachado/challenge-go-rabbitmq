@@ -8,5 +8,6 @@ import (
 func Generate() *mux.Router {
 
 	r := mux.NewRouter()
-	return routes.SetUp(r)
+	s := r.PathPrefix("/api/v1").Subrouter()
+	return routes.SetUp(s)
 }
