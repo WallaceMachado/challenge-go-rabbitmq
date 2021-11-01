@@ -51,6 +51,7 @@ Além disso, é bom ter um editor para trabalhar com o código como: [VSCode](ht
 ### Local
 
 Deverá criar/rodar banco de dados e rabbitmq com as configurações informadas no arquivo ``` .env ``` 
+Altere as varáveis de ambiente DB_HOST e RABBITMQ_DEFAULT_HOST  para localhost
  
 
 ```bash
@@ -105,10 +106,11 @@ Após clonar o repositório, renomeie o ``` .env.example ``` no diretório raiz 
 |  DB_PASSWORD |  Senha do Mongo.  |  -   |
 |  DB_NAME |  Nome do banco de dados do aplicativo. |  -  |
 |  DB_COLLECTION |  Nome da coleção do banco de dados Mongo. |  -  |
+|  DB_HOST |  host do Mongo. |  mongo  |
 |  RABBITMQ_DEFAULT_USER | Usuário RabbitMQ.  |  -   |
 |  RABBITMQ_DEFAULT_PASS | Senha RabbitMQ.  |  -   |
 |  RABBITMQ_DEFAULT_VHOST | virtual host do RabbitMQ.  |  /   |
-|  RABBITMQ_DEFAULT_HOST | host do RabbitMQ.  |  localhost   |
+|  RABBITMQ_DEFAULT_HOST | host do RabbitMQ.  |  rabbit   |
 |  RABBITMQ_DEFAULT_PORT | Porta em que o RabbitMQ está sendo excecutado  |  5672   |
 |  RABBITMQ_EXCHANGE_PERSON | Exchanche do RabbitMQ  |  person_ex   |
 |  RABBITMQ_QUEUE_PERSON  | Fila do RabbitMQ  |  person_queue   |
@@ -142,10 +144,10 @@ Corpo da requisição:
 ```
 {
     "name":  "teste",
-		"gender": "masculino",
-		"weight": 80,
-		"height": 174,
-		"imc":    20
+    "gender": "masculino",
+    "weight": 80,
+    "height": 174,
+    "imc":    20
 }
 
 ```
@@ -157,10 +159,10 @@ Corpo da requisição:
 ```
 {
     "name":  "teste atualizado",
-		"gender": "masculino",
-		"weight": 80,
-		"height": 174,
-		"imc":    20
+    "gender": "masculino",
+    "weight": 80,
+    "height": 174,
+    "imc":    20
 }
 
 ```
@@ -174,6 +176,8 @@ Parâmetro da requisição:
 Para executar os testes :
 
 ### Local
+
+Altere as varáveis de ambiente DB_HOST e RABBITMQ_DEFAULT_HOST  para localhost
 
 ```bash
 
