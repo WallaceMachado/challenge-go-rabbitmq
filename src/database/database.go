@@ -14,7 +14,7 @@ var db *mongo.Client
 
 func Db() *mongo.Client {
 
-	uri := fmt.Sprintf("mongodb://%s:%s@localhost:27017", config.DbUsername, config.DbPassword)
+	uri := fmt.Sprintf("mongodb://%s:%s@%s:%s", config.DbUsername, config.DbPassword, config.DbHost, config.DbPort)
 
 	clientOptions := options.Client().ApplyURI(uri)
 	client, err := mongo.Connect(context.TODO(), clientOptions)

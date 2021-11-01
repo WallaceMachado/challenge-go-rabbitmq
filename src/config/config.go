@@ -14,6 +14,8 @@ var (
 	DbPassword   = ""
 	DbName       = ""
 	DbCollection = ""
+	DbHost       = ""
+	DbPort       = ""
 
 	RabbitmqUser           = ""
 	RabbitmqPass           = ""
@@ -36,6 +38,8 @@ func Loader() {
 	DbPassword = os.Getenv("DB_PASSWORD")
 	DbName = os.Getenv("DB_NAME")
 	DbCollection = os.Getenv("DB_COLLECTION")
+	DbHost = os.Getenv("DB_HOST")
+	DbPort = os.Getenv("DB_PORT")
 
 	RabbitmqUser = os.Getenv("RABBITMQ_DEFAULT_USER")
 	RabbitmqPass = os.Getenv("RABBITMQ_DEFAULT_PASS")

@@ -1,22 +1,11 @@
-FROM golang:1.16-buster AS build
+FROM golang:1.16.7
 
-WORKDIR /app
+WORKDIR /go/src/app
 
-COPY go.mod ./
-COPY go.sum ./
+ADD go.mod .
+ADD go.sum .
 RUN go mod download
 
 COPY . .
 
-RUN go build -o /challenge-go-rabbitmq
-
-
-FROM gcr.io/distroless/base-debian10
-
-WORKDIR /
-
-COPY --from=build /challenge-go-rabbitmq /challenge-go-rabbitmq
-
-USER nonroot:nonroot
-
-ENTRYPOINT ["/challenge-go-rabbitmq"]
+CMD ["go", "run", "main.go"]
