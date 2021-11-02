@@ -2,19 +2,27 @@ package repositories
 
 import (
 	"context"
+	"errors"
+	"fmt"
 
+	"github.com/wallacemachado/challenge-go-rabbitmq/src/config"
 	"github.com/wallacemachado/challenge-go-rabbitmq/src/models"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 type RepositoryPerson struct {
 	Collection *mongo.Collection
 }
 
-func NewRepositoryPerson(c *mongo.Client) *RepositoryPerson {
-
-	personCollection := c.Database("challenge-go-rabbitmq-db").Collection("person")
+func NewRepositoryPerson(c *mongo.Client, dbName string) *RepositoryPerson {
+	newIndex := mongo.IndexModel{
+		Keys:    bson.M{"name": 1},
+		Options: options.Index().SetUnique(true),
+	}
+	personCollection := c.Database(dbName).Collection(config.DbCollection)
+	personCollection.Indexes().CreateOne(context.TODO(), newIndex)
 	return &RepositoryPerson{personCollection}
 }
 
@@ -65,8 +73,8 @@ func (r *RepositoryPerson) GetPersonById(id string) (*models.Person, error) {
 
 }
 
-func (r *RepositoryPerson) ListAllPeople() (*[]models.Person, error) {
-	var people []models.Person
+func (r *RepositoryPerson) ListAllPeople() ([]*models.Person, error) {
+	var people []*models.Person
 	result, err := r.Collection.Find(context.TODO(), bson.D{{}})
 	if err != nil {
 
@@ -75,7 +83,7 @@ func (r *RepositoryPerson) ListAllPeople() (*[]models.Person, error) {
 	}
 	for result.Next(context.TODO()) {
 
-		var person models.Person
+		var person *models.Person
 		err := result.Decode(&person)
 		if err != nil {
 			return nil, err
@@ -85,7 +93,7 @@ func (r *RepositoryPerson) ListAllPeople() (*[]models.Person, error) {
 	}
 	result.Close(context.TODO())
 
-	return &people, nil
+	return people, nil
 }
 
 func (r *RepositoryPerson) UpdatePerson(person *models.Person) error {
@@ -101,8 +109,13 @@ func (r *RepositoryPerson) UpdatePerson(person *models.Person) error {
 		"updated_at": person.UpdatedAt,
 	}}
 
-	if _, err := r.Collection.UpdateOne(context.TODO(), filter, update); err != nil {
+	result, err := r.Collection.UpdateOne(context.TODO(), filter, update)
+	if err != nil {
 		return err
+	}
+
+	if result.MatchedCount == 0 {
+		return errors.New("invalid ID")
 	}
 
 	return nil
@@ -112,11 +125,17 @@ func (r *RepositoryPerson) DeletePerson(id string) error {
 
 	filter := bson.M{"_id": id}
 
-	_, err := r.Collection.DeleteOne(context.TODO(), filter)
+	result, err := r.Collection.DeleteOne(context.TODO(), filter)
 
 	if err != nil {
 		return err
 	}
+
+	if result.DeletedCount == 0 {
+		return errors.New("invalid ID")
+	}
+
+	fmt.Println(err)
 
 	return nil
 }

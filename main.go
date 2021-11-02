@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-	config.Loader()
+	config.Init()
 	r := router.Generate()
 
 	fmt.Println("Server is running!")

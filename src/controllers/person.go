@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
+	"github.com/wallacemachado/challenge-go-rabbitmq/src/config"
 	"github.com/wallacemachado/challenge-go-rabbitmq/src/controllers/responses"
 	"github.com/wallacemachado/challenge-go-rabbitmq/src/database"
 	"github.com/wallacemachado/challenge-go-rabbitmq/src/models"
@@ -38,7 +39,7 @@ func CreatePerson(w http.ResponseWriter, r *http.Request) {
 	db := database.Db()
 	defer database.DbClose()
 
-	repository := repositories.NewRepositoryPerson(db)
+	repository := repositories.NewRepositoryPerson(db, config.DbName)
 
 	service := services.NewPersonService(repository)
 
@@ -58,7 +59,7 @@ func GetAllPeople(w http.ResponseWriter, r *http.Request) {
 	db := database.Db()
 	defer database.DbClose()
 
-	repository := repositories.NewRepositoryPerson(db)
+	repository := repositories.NewRepositoryPerson(db, config.DbName)
 
 	service := services.NewPersonService(repository)
 	people, err := service.ListAllPeople()
@@ -84,7 +85,7 @@ func GetPersonById(w http.ResponseWriter, r *http.Request) {
 	db := database.Db()
 	defer database.DbClose()
 
-	repository := repositories.NewRepositoryPerson(db)
+	repository := repositories.NewRepositoryPerson(db, config.DbName)
 
 	service := services.NewPersonService(repository)
 	result, err := service.GetPersonById(id)
@@ -132,7 +133,7 @@ func UpdatePerson(w http.ResponseWriter, r *http.Request) {
 	db := database.Db()
 	defer database.DbClose()
 
-	repository := repositories.NewRepositoryPerson(db)
+	repository := repositories.NewRepositoryPerson(db, config.DbName)
 
 	service := services.NewPersonService(repository)
 
@@ -158,7 +159,7 @@ func DeletePerson(w http.ResponseWriter, r *http.Request) {
 	db := database.Db()
 	defer database.DbClose()
 
-	repository := repositories.NewRepositoryPerson(db)
+	repository := repositories.NewRepositoryPerson(db, config.DbName)
 
 	service := services.NewPersonService(repository)
 

@@ -3,6 +3,8 @@ package config
 import (
 	"log"
 	"os"
+	"path/filepath"
+	"runtime"
 
 	"github.com/joho/godotenv"
 )
@@ -25,11 +27,14 @@ var (
 	RabbitmqExchangePerson = ""
 )
 
-func Loader() {
-	var erro error
+func Init() {
+	_, b, _, _ := runtime.Caller(0)
+	basepath := filepath.Dir(b)
 
-	if erro = godotenv.Load(); erro != nil {
-		log.Fatal(erro)
+	err := godotenv.Load(basepath + "/../../.env")
+
+	if err != nil {
+		log.Fatalf("Error loading .env files")
 	}
 
 	Port = os.Getenv("PORT")

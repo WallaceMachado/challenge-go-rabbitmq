@@ -27,6 +27,7 @@ func (p *PersonService) CreatePerson(person *models.Person) (interface{}, error)
 	if err != nil {
 		return nil, err
 	}
+	fmt.Println(personByName)
 	if personByName.ID != "" {
 		return nil, errors.New("Person already exist")
 	}
@@ -47,7 +48,7 @@ func (p *PersonService) CreatePerson(person *models.Person) (interface{}, error)
 
 }
 
-func (p *PersonService) ListAllPeople() (*[]models.Person, error) {
+func (p *PersonService) ListAllPeople() ([]*models.Person, error) {
 
 	people, err := p.repository.ListAllPeople()
 	if err != nil {
