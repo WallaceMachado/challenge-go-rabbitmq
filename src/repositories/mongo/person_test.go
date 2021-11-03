@@ -176,8 +176,8 @@ func TestUpdatePerson(t *testing.T) {
 	})
 
 	t.Run("error non-existent ID", func(t *testing.T) {
-
-		err := repository.DeletePerson("non-existent ID")
+		person.ID = "non-existent ID"
+		err := repository.UpdatePerson(person)
 
 		assert.NotNil(t, err)
 

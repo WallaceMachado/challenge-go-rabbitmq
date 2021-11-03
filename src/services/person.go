@@ -27,7 +27,7 @@ func (p *PersonService) CreatePerson(person *models.Person) (interface{}, error)
 	if err != nil {
 		return nil, err
 	}
-	fmt.Println(personByName)
+
 	if personByName.ID != "" {
 		return nil, errors.New("Person already exist")
 	}
@@ -84,10 +84,12 @@ func (p *PersonService) GetPersonById(id string) (*models.Person, error) {
 }
 
 func (p *PersonService) UpdatePerson(person *models.Person) error {
+
 	personByID, err := p.repository.GetPersonById(person.ID)
 	if err != nil {
 		return err
 	}
+
 	if personByID.ID == "" {
 		return errors.New("non-existent person")
 	}
@@ -96,6 +98,7 @@ func (p *PersonService) UpdatePerson(person *models.Person) error {
 	if err != nil {
 		return err
 	}
+
 	if personByName.ID != "" && personByName.ID != personByID.ID {
 		return errors.New("there is already another person with that name")
 	}

@@ -3,7 +3,6 @@ package repositories
 import (
 	"context"
 	"errors"
-	"fmt"
 
 	"github.com/wallacemachado/challenge-go-rabbitmq/src/config"
 	"github.com/wallacemachado/challenge-go-rabbitmq/src/models"
@@ -134,8 +133,6 @@ func (r *RepositoryPerson) DeletePerson(id string) error {
 	if result.DeletedCount == 0 {
 		return errors.New("invalid ID")
 	}
-
-	fmt.Println(err)
 
 	return nil
 }
