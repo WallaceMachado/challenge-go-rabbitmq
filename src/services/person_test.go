@@ -87,7 +87,7 @@ var p = &models.Person{
 	Weight:    80,
 	Height:    175,
 	IMC:       20,
-	Gender:    "Masculino",
+	Gender:    "male",
 	CreatedAt: time.Now(),
 	UpdatedAt: time.Now(),
 }
@@ -98,7 +98,7 @@ var p2 = &models.Person{
 	Weight:    82,
 	Height:    185,
 	IMC:       22,
-	Gender:    "Feminino",
+	Gender:    "female",
 	CreatedAt: time.Now(),
 	UpdatedAt: time.Now(),
 }
@@ -194,7 +194,7 @@ func TestUpdatePerson(t *testing.T) {
 		Weight:    82,
 		Height:    185,
 		IMC:       22,
-		Gender:    "Feminino",
+		Gender:    "female",
 		CreatedAt: time.Now(),
 		UpdatedAt: time.Now(),
 	}
@@ -207,7 +207,7 @@ func TestUpdatePerson(t *testing.T) {
 		p.Weight = 81
 		p.Height = 174
 		p.IMC = 21
-		p.Gender = "feminino"
+		p.Gender = "female"
 
 		err := service.UpdatePerson(p)
 

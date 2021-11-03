@@ -21,7 +21,7 @@ var person = &models.Person{
 	Weight:    80,
 	Height:    175,
 	IMC:       20,
-	Gender:    "Masculino",
+	Gender:    "male",
 	CreatedAt: time.Now(),
 	UpdatedAt: time.Now(),
 }
@@ -152,7 +152,7 @@ func TestUpdatePerson(t *testing.T) {
 		person.Weight = 81
 		person.Height = 174
 		person.IMC = 21
-		person.Gender = "feminino"
+		person.Gender = "female"
 
 		err := repository.UpdatePerson(person)
 

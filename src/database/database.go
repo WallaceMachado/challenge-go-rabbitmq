@@ -27,7 +27,6 @@ func Db() *mongo.Client {
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println("Connected to MongoDB!")
 
 	db = client
 

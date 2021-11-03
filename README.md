@@ -126,6 +126,11 @@ GET http://localhost:5000/api/v1/person
  
 ## Rotas
 
+```
+http://localhost:5000/api/v1/
+
+```
+
 | Rotas  |  HTTP Method  | Params  |  Descrição  | 
 | :---: | :---: | :---: | :---: |
 |  /person |  POST |  Body: ``` name ```, ``` gender ```, ``` weigth ```, ``` height ``` e ``` imc ``` |  Cadastre uma nova pessoa |
@@ -144,7 +149,7 @@ Corpo da requisição:
 ```
 {
     "name":  "teste",
-    "gender": "masculino",
+    "gender": "male",
     "weight": 80,
     "height": 174,
     "imc":    20
@@ -159,7 +164,7 @@ Corpo da requisição:
 ```
 {
     "name":  "teste atualizado",
-    "gender": "masculino",
+    "gender": "male",
     "weight": 80,
     "height": 174,
     "imc":    20
