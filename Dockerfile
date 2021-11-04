@@ -8,4 +8,6 @@ RUN go mod download
 
 COPY . .
 
-CMD ["go", "run", "main.go"]
+RUN go build
+
+CMD ["./challenge-go-rabbitmq"]

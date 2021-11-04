@@ -20,7 +20,7 @@ type Person struct {
 	UpdatedAt time.Time `bson:"updated_at,omitempty" json:"updatedAt" valid:"-"`
 }
 
-func NewPerson(p *Person) (*Person, error) {
+func NewPerson(p *Person, stage string) (*Person, error) {
 	person := &Person{
 		ID:     p.ID,
 		Name:   p.Name,
@@ -30,17 +30,15 @@ func NewPerson(p *Person) (*Person, error) {
 		IMC:    p.IMC,
 	}
 
-	if p.ID == "" {
+	if stage == "create" {
 		person.ID = uuid.NewV4().String()
 		person.CreatedAt = time.Now()
 		person.UpdatedAt = time.Now()
-	} else {
+	} else if stage == "update" {
 		person.UpdatedAt = time.Now()
 	}
 
-	err := person.prepare()
-
-	if err != nil {
+	if err := person.prepare(); err != nil {
 		return nil, err
 	}
 
@@ -54,9 +52,7 @@ func (p *Person) prepare() error {
 	p.Gender = strings.TrimSpace(p.Gender)
 	p.Gender = strings.ToLower(p.Gender)
 
-	err := p.validate()
-
-	if err != nil {
+	if err := p.validate(); err != nil {
 		return err
 	}
 
@@ -69,7 +65,6 @@ func (p *Person) validate() error {
 	govalidator.SetFieldsRequiredByDefault(true)
 
 	_, err := govalidator.ValidateStruct(p)
-
 	if err != nil {
 		return err
 	}
@@ -146,7 +141,7 @@ func validatePersonHeight(height float32) error {
 func validatePersonWeight(weight float32) error {
 
 	if weight < 10 || weight > 900 {
-		return errors.New("The height must be informed in kg and must be between 10kg and 900kg")
+		return errors.New("The weight must be informed in kg and must be between 10kg and 900kg")
 	}
 
 	return nil
@@ -155,7 +150,7 @@ func validatePersonWeight(weight float32) error {
 func validatePersonIMC(imc float32) error {
 
 	if imc < 10 || imc > 100 {
-		return errors.New("The height must be between 10 and 100")
+		return errors.New("The IMC must be between 10 and 100")
 	}
 
 	return nil

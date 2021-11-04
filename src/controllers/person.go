@@ -30,7 +30,7 @@ func CreatePerson(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	newPerson, err := models.NewPerson(&person)
+	newPerson, err := models.NewPerson(&person, "create")
 	if err != nil {
 		responses.Error(w, http.StatusBadRequest, err)
 		return
@@ -124,7 +124,7 @@ func UpdatePerson(w http.ResponseWriter, r *http.Request) {
 
 	person.ID = id
 
-	newPerson, err := models.NewPerson(&person)
+	newPerson, err := models.NewPerson(&person, "create")
 	if err != nil {
 		responses.Error(w, http.StatusBadRequest, err)
 		return

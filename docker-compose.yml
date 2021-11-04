@@ -13,6 +13,7 @@ services:
       - "5672:5672"
     networks:
       - app_network
+    
   mongo:
     image: mongo
     container_name: challenge-go-rabbitmq-mongo
@@ -24,6 +25,7 @@ services:
       - 27017:27017
     networks:
       - app_network
+    
   
   app:
     build: .
@@ -38,3 +40,4 @@ services:
 networks:
   app_network:
     driver: bridge
+    name: app_network
