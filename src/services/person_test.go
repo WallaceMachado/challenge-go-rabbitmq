@@ -4,6 +4,7 @@ import (
 	"testing"
 	"time"
 
+	uuid "github.com/satori/go.uuid"
 	"github.com/stretchr/testify/assert"
 	"github.com/wallacemachado/challenge-go-rabbitmq/src/config"
 	"github.com/wallacemachado/challenge-go-rabbitmq/src/models"
@@ -81,28 +82,6 @@ func (r *RepositoryPersonInMemory) DeletePerson(id string) error {
 	return nil
 }
 
-var p = &models.Person{
-	ID:        "c4ed67f0-93fb-4c50-aacd-30e9b046b725",
-	Name:      "teste",
-	Weight:    80,
-	Height:    175,
-	IMC:       20,
-	Gender:    "male",
-	CreatedAt: time.Now(),
-	UpdatedAt: time.Now(),
-}
-
-var p2 = &models.Person{
-	ID:        "c4ed67f0-93fb-4c50-aacd-30e9b046b733",
-	Name:      "teste2",
-	Weight:    82,
-	Height:    185,
-	IMC:       22,
-	Gender:    "female",
-	CreatedAt: time.Now(),
-	UpdatedAt: time.Now(),
-}
-
 func TestCreatePerson(t *testing.T) {
 	config.Init()
 
@@ -111,6 +90,16 @@ func TestCreatePerson(t *testing.T) {
 	service := services.NewPersonService(&RepositoryPersonInMemory{repo})
 
 	t.Run("Success", func(t *testing.T) {
+		p := &models.Person{
+			ID:        uuid.NewV4().String(),
+			Name:      "teste",
+			Weight:    80,
+			Height:    175,
+			IMC:       20,
+			Gender:    "male",
+			CreatedAt: time.Now(),
+			UpdatedAt: time.Now(),
+		}
 
 		result, err := service.CreatePerson(p)
 
@@ -119,9 +108,20 @@ func TestCreatePerson(t *testing.T) {
 	})
 
 	t.Run("error duplicate name", func(t *testing.T) {
-		p2.Name = p.Name
+		p := &models.Person{
+			ID:        uuid.NewV4().String(),
+			Name:      "teste",
+			Weight:    80,
+			Height:    175,
+			IMC:       20,
+			Gender:    "male",
+			CreatedAt: time.Now(),
+			UpdatedAt: time.Now(),
+		}
 
-		result, err := service.CreatePerson(p2)
+		p.Name = p.Name
+
+		result, err := service.CreatePerson(p)
 
 		assert.Nil(t, result)
 		assert.EqualError(t, err, "Person already exist")
@@ -138,6 +138,16 @@ func TestGetPersonByid(t *testing.T) {
 	service := services.NewPersonService(&RepositoryPersonInMemory{repo})
 
 	t.Run("Success", func(t *testing.T) {
+		p := &models.Person{
+			ID:        uuid.NewV4().String(),
+			Name:      "teste",
+			Weight:    80,
+			Height:    175,
+			IMC:       20,
+			Gender:    "male",
+			CreatedAt: time.Now(),
+			UpdatedAt: time.Now(),
+		}
 
 		service.CreatePerson(p)
 
@@ -168,6 +178,16 @@ func TestGetAllPeople(t *testing.T) {
 	service := services.NewPersonService(&RepositoryPersonInMemory{repo})
 
 	t.Run("Success", func(t *testing.T) {
+		p := &models.Person{
+			ID:        uuid.NewV4().String(),
+			Name:      "teste",
+			Weight:    80,
+			Height:    175,
+			IMC:       20,
+			Gender:    "male",
+			CreatedAt: time.Now(),
+			UpdatedAt: time.Now(),
+		}
 
 		service.CreatePerson(p)
 
@@ -188,18 +208,17 @@ func TestUpdatePerson(t *testing.T) {
 
 	service := services.NewPersonService(&RepositoryPersonInMemory{repo})
 
-	var p3 = &models.Person{
-		ID:        "c4ed67f0-93fb-4c50-aacd-30e9b046b733",
-		Name:      "updated name",
-		Weight:    82,
-		Height:    185,
-		IMC:       22,
-		Gender:    "female",
-		CreatedAt: time.Now(),
-		UpdatedAt: time.Now(),
-	}
-
 	t.Run("Success", func(t *testing.T) {
+		p := &models.Person{
+			ID:        uuid.NewV4().String(),
+			Name:      "teste",
+			Weight:    80,
+			Height:    175,
+			IMC:       20,
+			Gender:    "male",
+			CreatedAt: time.Now(),
+			UpdatedAt: time.Now(),
+		}
 
 		service.CreatePerson(p)
 
@@ -216,7 +235,38 @@ func TestUpdatePerson(t *testing.T) {
 	})
 
 	t.Run("error non-existent ID", func(t *testing.T) {
+		p := &models.Person{
+			ID:        uuid.NewV4().String(),
+			Name:      "teste",
+			Weight:    80,
+			Height:    175,
+			IMC:       20,
+			Gender:    "male",
+			CreatedAt: time.Now(),
+			UpdatedAt: time.Now(),
+		}
+		service.CreatePerson(p)
+		p2 := &models.Person{
+			ID:        uuid.NewV4().String(),
+			Name:      "teste2",
+			Weight:    80,
+			Height:    175,
+			IMC:       20,
+			Gender:    "male",
+			CreatedAt: time.Now(),
+			UpdatedAt: time.Now(),
+		}
 		service.CreatePerson(p2)
+		p3 := &models.Person{
+			ID:        p2.ID,
+			Name:      "teste",
+			Weight:    80,
+			Height:    175,
+			IMC:       20,
+			Gender:    "male",
+			CreatedAt: time.Now(),
+			UpdatedAt: time.Now(),
+		}
 
 		err := service.UpdatePerson(p3)
 
@@ -226,8 +276,18 @@ func TestUpdatePerson(t *testing.T) {
 	})
 
 	t.Run("error non-existent ID", func(t *testing.T) {
-		p3.ID = "non-existent ID"
-		err := service.UpdatePerson(p3)
+		p := &models.Person{
+			ID:        "non-existent ID",
+			Name:      "teste3",
+			Weight:    80,
+			Height:    175,
+			IMC:       20,
+			Gender:    "male",
+			CreatedAt: time.Now(),
+			UpdatedAt: time.Now(),
+		}
+
+		err := service.UpdatePerson(p)
 
 		assert.NotNil(t, err)
 		assert.EqualError(t, err, "non-existent person")
@@ -244,6 +304,16 @@ func TestDeletePerson(t *testing.T) {
 	service := services.NewPersonService(&RepositoryPersonInMemory{repo})
 
 	t.Run("Success", func(t *testing.T) {
+		p := &models.Person{
+			ID:        uuid.NewV4().String(),
+			Name:      "teste",
+			Weight:    80,
+			Height:    175,
+			IMC:       20,
+			Gender:    "male",
+			CreatedAt: time.Now(),
+			UpdatedAt: time.Now(),
+		}
 
 		service.CreatePerson(p)
 
@@ -254,8 +324,18 @@ func TestDeletePerson(t *testing.T) {
 	})
 
 	t.Run("error non-existent ID", func(t *testing.T) {
+		p := &models.Person{
+			ID:        "non-existent ID",
+			Name:      "teste",
+			Weight:    80,
+			Height:    175,
+			IMC:       20,
+			Gender:    "male",
+			CreatedAt: time.Now(),
+			UpdatedAt: time.Now(),
+		}
 
-		err := service.DeletePerson(p2.ID)
+		err := service.DeletePerson(p.ID)
 
 		assert.NotNil(t, err)
 
