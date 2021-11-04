@@ -5,6 +5,22 @@
 
 API Restful de controle de pessoas: 
 * Cada registro de uma pessoa contém as informações de NOME, SEXO, PESO, ALTURA e IMC.
+    * Nome (Name):
+        * Tipo: string
+        * Regras: deve possuir entre 3 e 100 caracteres
+    * Sexo (Gender):
+        * Tipo: string
+        * Regras: deve possuir o valor de "male" ou "female"
+    * Peso (Weight):
+        * Tipo: float32
+        * Regras: deve ser informado em kg, sem a unidade e somente com valor entre 10 e 900
+    * Altura (Height):
+        * Tipo: float32
+        * Regras: deve ser informado em cm, sem a unidade e somente com valor entre 30 e 250
+    * IMC:
+        * Tipo: float32
+        * Regras: deve possuir valor entre 10 e 100
+          
 * Implementa um CRUD (create, read,update,delete) básico
 * Os registros são salvos em um banco de dados mongoDB. 
 * Cada operação executada na API gera uma mensagem de LOG informativa,
@@ -83,7 +99,7 @@ $ git clone https://github.com/WallaceMachado/challenge-go-rabbitmq.git
 $ cdchallenge-go-rabbitmq
 
 # Instale as dependências e rode o projeto
-$ docker-compose up --build
+$ docker-compose up -d --build
 
 ```
 #### Configuração RabbitMQ
