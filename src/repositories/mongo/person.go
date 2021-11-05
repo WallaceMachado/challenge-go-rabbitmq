@@ -102,8 +102,8 @@ func (r *RepositoryPerson) UpdatePerson(person *models.Person) error {
 	update := bson.M{"$set": bson.M{
 		"name":       person.Name,
 		"gender":     person.Gender,
-		"heigth":     person.Height,
-		"weigth":     person.Weight,
+		"weight":     person.Weight,
+		"height":     person.Height,
 		"imc":        person.IMC,
 		"updated_at": person.UpdatedAt,
 	}}
