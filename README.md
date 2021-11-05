@@ -4,6 +4,10 @@
 
 
 API Restful de controle de pessoas: 
+* Implementa um CRUD (create, read,update,delete) básico
+* Os registros são salvos em um banco de dados mongoDB. 
+* Cada operação executada na API gera uma mensagem de LOG informativa,
+  que é publicada em uma FILA RabbitMQ.
 * Cada registro de uma pessoa contém as informações de NOME, SEXO, PESO, ALTURA e IMC.
     * Nome (Name):
         * Tipo: string
@@ -21,10 +25,7 @@ API Restful de controle de pessoas:
         * Tipo: float32
         * Regras: deve possuir valor entre 10 e 100
           
-* Implementa um CRUD (create, read,update,delete) básico
-* Os registros são salvos em um banco de dados mongoDB. 
-* Cada operação executada na API gera uma mensagem de LOG informativa,
-  que é publicada em uma FILA RabbitMQ. 
+ 
 
 Um segundo serviço, consome os eventos gerados em fila, e atualiza
 um websocket para exibição dos mesmos. Link do repositório: https://github.com/WallaceMachado/websocket-consumer-rabbitmq
