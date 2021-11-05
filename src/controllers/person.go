@@ -124,7 +124,7 @@ func UpdatePerson(w http.ResponseWriter, r *http.Request) {
 
 	person.ID = id
 
-	newPerson, err := models.NewPerson(&person, "create")
+	newPerson, err := models.NewPerson(&person, "update")
 	if err != nil {
 		responses.Error(w, http.StatusBadRequest, err)
 		return
